@@ -1,0 +1,72 @@
+
+<html>
+<head>
+<meta charset="utf-8" />
+<title>LScroll5.html</title>
+<script type="text/javascript">
+	var LScroll = {
+		img : null,
+		sc : null,
+		scx : null,
+		at : 0,
+		flag : true,
+		loadImg : function(srcs, callback) {
+			var mg = new Image();
+			mg.src = srcs;
+			mg.onload = function() {
+				callback(this);
+			}; // callback function
+			return LScroll.img = mg;
+		},
+		init : function(srcs) {
+			if (!document.body)
+				document.createElement('body');
+			if (!LScroll.sc) {
+				var sc = document.createElement('canvas');
+				LScroll.scx = sc.getContext('2d');
+				var callback = function(imgs) { // after onload image can be draw
+					sc.width = imgs.width / 4;
+					sc.height = imgs.height; //not style.
+					sc.style.backgroundColor = 'black';
+					sc.style.border = 'solid 1px white';
+					document.body.style.backgroundColor = 'black';
+					document.body.style.textAlign = 'center';
+					document.body.appendChild(LScroll.sc = sc);
+					LScroll.draw(LScroll.sc, LScroll.scx);
+				};
+				LScroll.loadImg(srcs, callback);
+			}
+		},
+		draw : function(sc, scx) {
+			scx.clearRect(0, 0, sc.width, sc.height);
+			scx.save();
+			scx.beginPath();
+
+			switch (LScroll.flag) {
+			case true:
+				if (-LScroll.at == LScroll.img.width - sc.width)
+					LScroll.flag = !LScroll.flag;
+				LScroll.at--;
+				break;
+			case false:
+				if (LScroll.at == 0)
+					LScroll.flag = !LScroll.flag;
+				LScroll.at++;
+			}
+
+			scx.drawImage(LScroll.img, LScroll.at, 0);
+			scx.restore();
+			setTimeout(function() {
+				LScroll.draw(sc, scx);
+			}, 10);
+		}
+	};
+	window.onload = function() {
+		LScroll.init('/static/3.jpeg');
+	};
+</script>
+</head>
+<body>
+
+</body>
+</html>

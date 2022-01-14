@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<!--<html lang="en">-->
+<head>
+<!--    <meta charset="UTF-8">-->
+<!--    <title>喵~</title>-->
+<!--</head>-->
+<!--<body>-->
+
+<!--</body>-->
+<!--</html>-->
+ <title>Document</title>
+ </head>
+ <body OnLoad="swapPic()">
+  <script language="javascript" type="text/javascript">
+    var ranl = 0;
+    var useRand = 0;
+    images = new Array;
+	images[1] = new Image();
+	images[1].src = "/static/1.jpeg";
+	images[2] = new Image();
+	images[2].src = "/static/2.jpeg";
+	images[3] = new Image();
+	images[3].src = "/static/3.jpeg";
+	images[4] = new Image();
+	images[4].src = "/static/3.jpeg";
+	function swapPic(){
+	   var imgnum = images.length-1;
+       do{
+	    var randnum = Math.random();
+		randl = Math.round((imgnum-1)*randnum)+1;
+	   }while(randl==useRand);
+        useRand = randl;
+        document.randimg.src = images[useRand].src
+		setTimeout('swapPic()',2000);
+	}
+
+  </script>
+  <img name ="randimg" src="images/pic.jpg">
+ </body>
+<html>

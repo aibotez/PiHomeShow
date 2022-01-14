@@ -1,0 +1,223 @@
+
+<html>
+
+<head>
+<meta http-equiv="Content-Language" content="zh-cn">
+<meta http-equiv="Content-Type" content="text/html; charset=gb2312">
+<title>喵~</title>
+
+    <style type="text/css">
+
+        .content div{
+            border:1px solid #0ba;
+            float:left;
+                }
+    </style>
+
+</head>
+
+
+<body>
+
+<div align="center" style="height:100px;width:100%;background:#008080;overflow:hidden;">
+    <label style="color:#F4A460;font-size:80px;text-align:center">
+        大 猫 猫
+    </label>
+</div>
+
+<div id="label1" style="text-align:center;overflow: scroll;height:1080px;width:1920px;color:#00FF00">
+    <div id="label2" class = "content" style="overflow:hidden;width:1920px;">
+
+        {% for imgInfo in imgInfos %}
+            <div style="height:60px;width:60px;background:#000;overflow:hidden;" id={{imgInfo.imgFeid}}>
+                <a href={{imgInfo.imgro}}>
+                    <img style="position:relative" src={{imgInfo.imgro}} id={{imgInfo.imgid}}>
+                </a>
+            </div>
+        {% endfor %}
+
+
+
+    </div>
+    <div id="label3" style="overflow:hidden;height:1px"></div>
+</div>
+
+<script>
+<!--MainShw();-->
+var MainShw=function()
+<!--function MainShw()-->
+    {
+         var Sw=document.body.clientWidth;
+         var Sh=document.body.clientHeight;
+         change("label1",Sw,Sh)
+         change("label2",Sw,0)
+         var imgInfo = {{imgInfos|safe}};
+         var length = imgInfo.length;
+         for (var i=0;i<length;i++)
+            {
+                change(imgInfo[i].imgFeid,Sw/2-10,Sw/2-10)
+             }
+        function change(ID,Cw,Ch)
+        {
+
+            var div=document.getElementById(ID);/*w和h都要用这部分，故单独定义一个div*/
+            var w=parseInt(div.style.width);
+            var h=parseInt(div.style.height);
+            div.style.width=Cw+"px";
+            if(Ch != 0)
+            {
+                div.style.height=Ch+"px";
+            }
+        }
+    }
+    document.write(MainShw());
+</script>
+<script>
+<!--CutShw();-->
+var CutShw=function()
+<!--function CutShw()-->
+    {
+    var w=document.body.clientWidth;
+    var h=document.body.clientHeight ;
+    var imgInfo = {{imgInfos|safe}};
+    var length = imgInfo.length;
+<!--    alert(document.body.clientWidth);-->
+
+    var divwidth = w/2-10;
+    var divheight = divwidth;
+    for (var i=0;i<length;i++)
+      {
+        img_zoom(imgInfo[i].imgid,imgInfo[i].imgro,divwidth,divheight);
+      }
+
+    function img_zoom(img_id,img_src,divwidth,divheight)
+        {
+            var img = document.getElementById(img_id);
+            var image = new Image();
+            var realWidth = 0;//储存图片实际宽度
+            var realHeight = 0;//储存图片实际高度
+<!--            var divwidth = 600;-->
+<!--            var divheight = 600;-->
+            //获取图片的宽高
+            image.src = img_src;
+            //加载成功的处理
+            image.onload = function () {
+                realWidth = image.width;//获取图片实际宽度
+                realHeight = image.height;//获取图片实际高度
+                //让img的宽高相当于图片实际宽高的等比缩放，然后再偏移
+                if (realWidth > realHeight){
+                    img.width = (divwidth/realHeight)*realWidth;//等比缩放宽度
+                    img.height = divheight;//跟div高度一致
+                    img.style.left = '-' + ((divheight/realHeight)*realWidth-divwidth)/2 + 'px';//设置图片相对自己位置偏移为img标签的宽度-高度的一半
+                }else if (realWidth < realHeight){
+                    img.width =divwidth ;//跟div高度一致
+                    img.height = (divheight/realWidth)*realHeight;//等比缩放高度
+                    img.style.top = '-' + ((divwidth/realWidth)*realHeight-divheight)/2 + 'px';//设置图片相对自己位置偏移为img标签的高度-宽度的一半
+                }else {
+                    img.width =divwidth;
+                    img.height = divheight;
+                }
+            };
+            //图片加载失败的处理
+            img.onerror = function () {
+                img.src = "https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1492076382452&di=04ebd6c4688b2ffbd8ae18e685234704&imgtype=0&src=http%3A%2F%2Fd.hiphotos.baidu.com%2Fzhidao%2Fwh%253D450%252C600%2Fsign%3D0c96dc86da33c895a62b907fe4235fc6%2F0823dd54564e9258d2bb2dff9f82d158ccbf4e17.jpg";
+                img.width =divwidth;
+                img.height = divheight;
+            }
+
+        }
+        }
+        document.write(CutShw());
+</script>
+<!--click-->
+
+<script>
+var t;//计时器
+var speed=5;//滚动速度
+
+var toplabel = document.getElementById('label1');
+<!--toplabel.scrollTop = 200;-->
+<!--alert(toplabel.scrollTop+toplabel.offsetHeight)-->
+function move()
+    {
+<!--     toplabel.scrollTop = toplabel.scrollTop + speed;-->
+        if ((toplabel.scrollTop+toplabel.offsetHeight)>=toplabel.scrollHeight)
+        {
+            toplabel.scrollTop = 0;
+        }
+        else
+        {
+            toplabel.scrollTop = toplabel.scrollTop + speed;
+        }
+        t=setTimeout(move,50);
+    }
+
+move();
+</script>
+
+<!--<script language="javascript" defer>-->
+<!--//获取div标签-->
+<!--function getobj(element)-->
+<!--{-->
+<!--	return document.getElementById(element);-->
+<!--}-->
+<!--//声明div标签变量-->
+<!--var toplabel=getobj("label1");-->
+<!--var bottomlabel=getobj("label3");-->
+
+<!--var w=document.body.clientWidth;-->
+<!--var h=document.body.clientHeight ;-->
+<!--&lt;!&ndash;var div=document.getElementById("label2");&ndash;&gt;-->
+<!--&lt;!&ndash;var h=parseInt(div.style.height);&ndash;&gt;-->
+<!--&lt;!&ndash;alert(h);&ndash;&gt;-->
+<!--//定义div标签长度常量-->
+<!--MAX_HEIGHT=h;-->
+<!--MIN_HEIGHT=w/2;-->
+<!--//声明并初始化变量-->
+<!--var t;//计时器-->
+<!--var speed=5;//滚动速度-->
+<!--var height=MAX_HEIGHT;//top div长度-->
+<!--var bottomheight=MIN_HEIGHT;//bottom div长度-->
+<!--bottomlabel.innerHTML=toplabel.innerHTML;//复制top内容到bottom，用来循环滚动显示-->
+<!--var height0 = toplabel.offsetHeight;-->
+
+<!--function move()-->
+<!--{-->
+<!--toplabel.scrollTop=toplabel.scrollHeight;-->
+<!--    console.log(height,h-w/2);-->
+<!--    if (height<h-w/2)-->
+<!--    {-->
+<!--        toplabel.scrollTop=0;-->
+<!--&lt;!&ndash;        toplabel.style.height=height=height0;&ndash;&gt;-->
+<!--&lt;!&ndash;        bottomlabel.style.height=bottomheight=MIN_HEIGHT;&ndash;&gt;-->
+<!--    }-->
+<!--    else-->
+<!--    {-->
+<!--    if ((toplabel.scrollTop+toplabel.offsetHeight)>=toplabel.scrollHeight)-->
+<!--    {-->
+<!--&lt;!&ndash;    toplabel.style.height=height-=speed;&ndash;&gt;-->
+<!--&lt;!&ndash;    bottomlabel.style.height=bottomheight+=speed;}&ndash;&gt;-->
+<!--    toplabel.scrollTop+=speed;-->
+
+<!--    }-->
+<!--t=setTimeout(move,50);-->
+<!--}-->
+<!--move();-->
+<!--function stop()-->
+<!--{-->
+<!--	clearTimeout(t);-->
+<!--}-->
+<!--function start()-->
+<!--{-->
+<!--	t=setTimeout(move,100);-->
+<!--}-->
+
+
+
+<!--</script>-->
+
+
+
+</body>
+
+</html>
