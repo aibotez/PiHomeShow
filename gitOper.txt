@@ -1,4 +1,4 @@
-﻿##使用ssh方式克隆
+#使用ssh方式克隆
 1、git clone git@github.com:aibotez/PiHomeShow.git
 如果你已经用https方式克隆了仓库，不必删除仓库重新克隆，只需将当前项目中的 .git/config文件中的
 url = https://gitee.com/Name/project.git
@@ -14,3 +14,5 @@ url = git@gitee.com:Name/project.git
 4、git push
 push内容到github上面，如果你的厂库不是新建的，里面以前已经有内容，你再次上传新内容想覆盖，就要在后面加“-f”,代码如下：$ git push -f
 
+5、git pull
+从云端下载
